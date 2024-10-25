@@ -11,21 +11,18 @@ import { NodePartialConnectionControl } from "./controls/partial-node-connection
 import { PinControl } from "./controls/pin.control";
 import { UserControl } from "./controls/user-control";
 import { Container } from "./controls/container";
-import { InteractableControl, isInteractableControl } from "./controls/interfaces/interactable";
-import { InteractableUserControl } from "./controls/interactable-user-control";
 import { Application } from "./application";
 
 export class Scene {
 
-    private _canvas: Canvas2D;
-    private _camera: Camera;
+    private readonly _canvas: Canvas2D;
+    private readonly _camera: Camera;
 
     private _controls: Array<Control>;
     private _nodes: Array<NodeControl>;
     private _pins: Array<PinControl>;
-    private _interactables: Array<InteractableUserControl>;
 
-    private app;
+    private readonly app: Application;
 
     constructor(canvas: Canvas2D, app: Application) {
         this.app = app;
@@ -41,44 +38,8 @@ export class Scene {
         return this._camera;
     }
 
-    get canvas() {
-        return this._canvas;
-    }
-
     get nodes() {
         return this._nodes || [];
-    }
-
-    get interactables() {
-        return this._interactables || [];
-    }
-
-    collectInteractables() {
-        let interactables: Array<InteractableUserControl> = [];
-        this._controls.forEach((control) => {
-            if (control instanceof InteractableUserControl) {
-                interactables.push(control);
-            }
-            
-            if (control instanceof Container) {
-                this.findInteractablesIn(interactables, control);
-            }
-        });
-
-        this._interactables = interactables;
-    }
-
-    private findInteractablesIn(interactables: Array<InteractableUserControl>, container: Container) {
-
-        for (let child of container.getChildren()) {
-            if (child instanceof InteractableUserControl) {
-                interactables.push(child);
-            }
-
-            if (child instanceof Container) {
-                this.findInteractablesIn(interactables, child);
-            }
-        }
     }
 
     updateLayout() {
@@ -211,21 +172,6 @@ export class Scene {
                 this.initializeControl(child);
             }
         }
-    }
-
-    calculateCentroid(): Vector2 {
-        let centroid = new Vector2(0, 0);
- 
-        if (this.nodes.length == 0)
-            return centroid;
-
-        this.nodes.forEach(node => {
-            centroid = new Vector2(
-                centroid.x - node.position.x - (node.size.x * 0.5),
-                centroid.y - node.position.y - (node.size.y * 0.5));
-        });
-
-        return new Vector2(centroid.x / this.nodes.length, centroid.y / this.nodes.length);
     }
 
     calculateCenterPoint() {

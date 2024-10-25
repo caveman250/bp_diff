@@ -1,14 +1,12 @@
 import { Application } from "../application";
 import { Canvas2D } from "../canvas";
 import { Control } from "./control";
-import { InteractableUserControl } from "./interactable-user-control";
 import { DrawableControl } from "./interfaces/drawable";
-import { InteractableControl } from "./interfaces/interactable";
 import { FoldableHeadedNodeControl } from "./nodes/foldable-headed-node.control";
 import { NodeControl } from "./nodes/node.control";
 import { UserControl } from "./user-control";
 
-export class NodeFoldButton extends InteractableUserControl implements InteractableControl {
+export class NodeFoldButton extends UserControl {
 
     private static readonly BUTTON_HEIGHT = 20;
     private static readonly BUTTON_MARGIN = 3;

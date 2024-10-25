@@ -10,6 +10,17 @@ export class Klee {
         } else {
             this.app = Application.createOrGet(canvas);
         }
+
+        function fitToContainer(){
+            canvas.style.width ='100%';
+            canvas.style.height='100%';
+            canvas.width  = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            Application.getInstance(canvas).scene.refresh();
+        }
+
+        window.addEventListener("resize", fitToContainer);
+        fitToContainer();
     }
 
     public display(blueprintText: string): void {

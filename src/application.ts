@@ -83,7 +83,6 @@ export class Application {
     public refresh() {
         this._element.width = this._element.offsetWidth;
         this._element.height = this._element.offsetHeight;
-        this._scene.collectInteractables();
         this._scene.updateLayout();
         this._scene.refresh();
     }
